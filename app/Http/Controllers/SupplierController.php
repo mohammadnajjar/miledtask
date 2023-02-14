@@ -90,8 +90,55 @@ class SupplierController extends Controller
 
     }
 
+    public function save(Request $request, $id)
+    {
+        try {
+            // Retrieve the data from the request
+            $data = $request->all();
 
+            // Perform validation on the data
+            $validatedData = $request->validate([
+                'model' => 'required|max:255',
+                'sFX' => 'required|max:255',
+                'variant' => 'required|max:255',
+                'color' => 'required|max:255',
+                'supplier' => 'required|max:255',
+                'whole_seller' => 'required|max:255',
+                'steering_type' => 'required|max:255',
+            ]);
 
+            // Save the data to the database
+            $supplier = new Supplier();
+            $supplier->id = $id;
+            $supplier->model = $validatedData['model'];
+            $supplier->sFX = $validatedData['sFX'];
+            $supplier->variant = $validatedData['variant'];
+            $supplier->color = $validatedData['color'];
+            $supplier->supplier = $validatedData['supplier'];
+            $supplier->whole_seller = $validatedData['whole_seller'];
+            $supplier->steering_type = $validatedData['steering_type'];
+            $supplier->save();
+            // Return a success response
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Return an error response
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function add(Request $request)
+    {
+        try {
+// Generate a unique identifier for the new row
+            $newId = uniqid();
+            // Return the new identifier as a response
+            return response()->json(['id' => $newId]);
+        } catch (\Exception $e) {
+            // Return an error response
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
 
     /**
      * Display the specified resource.

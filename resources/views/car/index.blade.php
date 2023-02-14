@@ -99,8 +99,8 @@
                         var html = "";
                         $.each(data, function(index, item){
                             html += "<tr><td>" + item.model + "</td><td>" + item.sFX + "</td><td>" + item.variant + "</td><td>" + item.color + "</td><td>" + item.supplier + "</td><td>" + item.whole_seller + "</td><td>" + item.steering_type + "</td></tr>";
-                            html += "<tr><td colspan='7'><form><button type='submit' id='saveRecord'>add</button></form></td></tr>";
                         });
+                        html += "<tr><td><input type='text' name='model[]'></td><td><input type='text' name='sFX[]'></td><td><input type='text' name='variant[]'></td><td><input type='text' name='color[]'></td><td><input type='text' name='supplier[]'></td><td><input type='text' name='whole_seller[]'></td><td><input type='text' name='steering_type[]'></td><td><button id='addRow'>Add New Row</button> </td></tr>";
                         $("#result tbody").html(html);
                     }
                 });
@@ -133,7 +133,9 @@
             }
 
             // Add event listener to form submit button
-            $(document).on("click", "#saveRecord", function(e) {
+            $(document).on("click", "#saveRecord", function(e)
+            {
+
                 e.preventDefault();
                 var form = $(this).closest("form");
                 var id = form.data("id");
@@ -142,7 +144,9 @@
             });
 
             // Add a new row when button is clicked
+
             $(document).on("click", "#addRow", function() {
+                // code to add a new row
                 $.ajax({
                     url: "{{ url('/add') }}",
                     type: "POST",

@@ -21,6 +21,8 @@ Route::get('/', function () {
 });
 Route::resource('/supplier',SupplierController::class);
 Route::Post('/filter',[SupplierController::class,'filter']);
+Route::Post('/save',[SupplierController::class,'save']);
+Route::Post('/add',[SupplierController::class,'add']);
 
 
 Route::resource('/car',CarController::class);
