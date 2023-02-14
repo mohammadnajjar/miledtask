@@ -118,7 +118,21 @@
     <script>
         $(document).ready(function() {
             function saveRecord(id, data) {
-
+                // You can perform any desired action with the id and data here
+                $.ajax({
+                    url: "{{ url('/save') }}",
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        id: id,
+                        data: data
+                    },
+                    success: function(response) {
+                        // Perform any desired action on successful response
+                    }
+                });
             }
 
             // Add event listener to form submit button
@@ -165,7 +179,5 @@
                 cell.html(value);
             });
         });
-
     </script>
-
 @endsection
