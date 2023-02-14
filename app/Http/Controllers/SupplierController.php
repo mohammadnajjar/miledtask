@@ -90,34 +90,25 @@ class SupplierController extends Controller
 
     }
 
-    public function save(Request $request, $id)
+    public function save(Request $request)
     {
         try {
             // Retrieve the data from the request
             $data = $request->all();
 
-            // Perform validation on the data
-            $validatedData = $request->validate([
-                'model' => 'required|max:255',
-                'sFX' => 'required|max:255',
-                'variant' => 'required|max:255',
-                'color' => 'required|max:255',
-                'supplier' => 'required|max:255',
-                'whole_seller' => 'required|max:255',
-                'steering_type' => 'required|max:255',
-            ]);
-
             // Save the data to the database
             $supplier = new Supplier();
-            $supplier->id = $id;
-            $supplier->model = $validatedData['model'];
-            $supplier->sFX = $validatedData['sFX'];
-            $supplier->variant = $validatedData['variant'];
-            $supplier->color = $validatedData['color'];
-            $supplier->supplier = $validatedData['supplier'];
-            $supplier->whole_seller = $validatedData['whole_seller'];
-            $supplier->steering_type = $validatedData['steering_type'];
+            $supplier->supplier = $request->supplier;
+            $supplier->whole_seller = $request->whole_seller;
+            $supplier->steering_type = $request->steering_type;
             $supplier->save();
+            $car = new Car();
+            $car->model = $request->model;
+            $car->sFX = $request->sFX;
+            $car->variant = $request->variant;
+            $car->color = $request->color;
+            $car->supplier_id = $supplier->id;
+            $car->save();
             // Return a success response
             return response()->json(['success' => true]);
         } catch (\Exception $e) {

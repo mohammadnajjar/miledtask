@@ -114,41 +114,10 @@
             // Call filterRecords() on page load
             filterRecords();
 
-            function saveRecord(id, data) {
-                // You can perform any desired action with the id and data here
-                $.ajax({
-                    url: "{{ url('/save') }}",
-                    type: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        id: id,
-                        data: data
-                    },
-                    success: function(response) {
-                        // Perform any desired action on successful response
-                    }
-                });
-            }
-
-            // Add event listener to form submit button
-            $(document).on("click", "#saveRecord", function(e)
-            {
-
-                e.preventDefault();
-                var form = $(this).closest("form");
-                var id = form.data("id");
-                var data = form.serialize();
-                saveRecord(id, data);
-            });
-
-            // Add a new row when button is clicked
-
             $(document).on("click", "#addRow", function() {
                 // code to add a new row
                 $.ajax({
-                    url: "{{ url('/add') }}",
+                    url: "/add",
                     type: "POST",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -156,12 +125,40 @@
                     success: function(response) {
                         // Append new row to table
                         var html = "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-                        html += "<tr><td colspan='7'><form data-id='" + response.id + "'><button type='submit' id='saveRecord'>add</button></form></td></tr>";
+                        html += "<tr><td colspan='7'><form data-id='" + response.id + "'><input type='text' name='model'><input type='text' name='sFX'><input type='text' name='variant'><input type='text' name='color'><input type='text' name='supplier'><input type='text' name='whole_seller'><input type='text' name='steering_type'><button type='submit' id='saveRecord'>Save</button></form></td></tr>";
                         $("#result tbody").append(html);
                     }
                 });
             });
 
+            $(document).on("click", "#saveRecord", function(e)
+            {
+
+                e.preventDefault();
+                var form = $(this).closest("form");
+                var id = form.data("id");
+                var data = form.serializeArray();
+                $.ajax({
+                    url: "/save",
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        id: id,
+                        model: data[0].value,
+                        sFX: data[1].value,
+                        variant: data[2].value,
+                        color: data[3].value,
+                        supplier: data[4].value,
+                        whole_seller: data[5].value,
+                        steering_type: data[6].value,
+                    },
+                    success: function(response) {
+                        // Perform any desired action on successful response
+                    }
+                });
+            });
         });
     </script>
 
