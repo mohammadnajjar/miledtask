@@ -15,7 +15,7 @@ At the end of the record, there is an empty row that can be used to add new data
 The data is organized by 12 months, from January 2023 to December 2023, which includes the total demand quantity for each month.
 
 **Technical Details:**
-The system is developed using Laravel and jQuery. Laravel is a free, open-source PHP web framework used for web application development, while jQuery is a fast, small, and feature-rich JavaScript library that makes HTML document traversal and manipulation, event handling, and animation much simpler with an easy-to-use API that works across a multitude of browsers.
+The system is developed using Laravel and jQuery. Laravel is a free, open-source PHP web framework used for web application development, while jQuery is a fast, small, and feature-rich JavaScript library that makes HTML document traversal and manipulation, event handling
 
 The system uses logical techniques such as event handling, dynamic data fetching, and DOM manipulation to implement the runtime filter and update the data without refreshing the page.
 
