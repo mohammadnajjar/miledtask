@@ -99,7 +99,7 @@
                         var html = "";
                         $.each(data, function(index, item){
                             html += "<tr><td>" + item.model + "</td><td>" + item.sFX + "</td><td>" + item.variant + "</td><td>" + item.color + "</td><td>" + item.supplier + "</td><td>" + item.whole_seller + "</td><td>" + item.steering_type + "</td></tr>";
-                            html+="<tr><td colspan='7'><form><button type='submit' id='saveRecord'>add</button> </form><td><tr>"
+                            html += "<tr><td colspan='7'><form><button type='submit' id='saveRecord'>add</button></form></td></tr>";
                         });
                         $("#result tbody").html(html);
                     }
@@ -113,10 +113,7 @@
 
             // Call filterRecords() on page load
             filterRecords();
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
+
             function saveRecord(id, data) {
                 // You can perform any desired action with the id and data here
                 $.ajax({
@@ -136,7 +133,7 @@
             }
 
             // Add event listener to form submit button
-            $("#saveRecord").click(function(e) {
+            $(document).on("click", "#saveRecord", function(e) {
                 e.preventDefault();
                 var form = $(this).closest("form");
                 var id = form.data("id");
@@ -145,7 +142,7 @@
             });
 
             // Add a new row when button is clicked
-            $("#addRow").click(function() {
+            $(document).on("click", "#addRow", function() {
                 $.ajax({
                     url: "{{ url('/add') }}",
                     type: "POST",
@@ -154,30 +151,14 @@
                     },
                     success: function(response) {
                         // Append new row to table
-                        var html = "<tr data-id='" + response.id + "'>";
-                        html += "<td class='model editable'></td>";
-                        html += "<td class='sFX editable'></td>";
-                        html += "<td class='variant editable'></td>";
-                        html += "<td class='color editable'></td>";
-                        html += "<td class='supplier editable'></td>";
-                        html += "<td class='whole_seller editable'></td>";
-                        html += "<td class='steering_type editable'></td>";
-                        html += "</tr>";
+                        var html = "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+                        html += "<tr><td colspan='7'><form data-id='" + response.id + "'><button type='submit' id='saveRecord'>add</button></form></td></tr>";
                         $("#result tbody").append(html);
                     }
                 });
             });
 
-            // Call saveRecord() on table row blur (when a cell loses focus)
-            $("#result tbody").on("blur", "td.editable input", function() {
-                var cell = $(this).closest("td");
-                var value = $(this).val();
-                var id = cell.closest("tr").data("id");
-                var field = cell.attr("class").split(" ")[0];
-                var data = field + "=" + value;
-                saveRecord(id, data);
-                cell.html(value);
-            });
         });
     </script>
+
 @endsection
